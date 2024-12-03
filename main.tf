@@ -41,7 +41,7 @@ resource "aws_instance" "blog" {
 
   vpc_security_group_ids = [module.blog_sg.security_group_id]
 
-  subnet_id = "module.blog_vpc.subnets[0]"
+  subnet_id = "module.blog_vpc.public_subnets[0]"
 
   tags = {
     Name = "HelloWorld"
@@ -50,7 +50,7 @@ resource "aws_instance" "blog" {
 
 module "alb" {
   source = "terraform-aws-modules/alb/aws"
-
+  load_balancer_type = "application"
   name    = "blog-alb"
   vpc_id  = module.blog_vpc.vpc_id
   subnets = module.blog_vpc.public_subnets
@@ -58,7 +58,7 @@ module "alb" {
 
   target_groups = {
     blog-instance = {
-      name_prefix      = "blog-"
+      name_prefix      = "blog"
       protocol         = "HTTP"
       port             = 80
       target_type      = "instance"
