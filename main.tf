@@ -47,7 +47,7 @@ module "blog_autoscaling" {
   instance_type = var.instance_type
 
   vpc_zone_identifier                 = module.blog_vpc.public_subnets
-  autoscaling_group_target_group_arns = module.blog_alb.target_group_arns
+  target_group_arns = module.blog_alb.target_group_arns
   security_groups                     = [module.blog_sg.security_group_id]
 }
 
